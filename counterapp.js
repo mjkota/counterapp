@@ -18,7 +18,7 @@ var server = http.createServer(function handleRequest(req, res) {
             res.write('Request Count (Version 3): ERROR ' + err);
             res.end();
         } else {
-            res.write('Request Count (Version 3): ' + newValue);
+            res.write('Hello CloudCover, you have' + newValue 'visitors on this page');
             res.end();
         }
     })
