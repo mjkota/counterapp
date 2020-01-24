@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: request-counter-ms-deployment
+  namespace: frontend
+spec:
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  selector:
+    matchLabels:
+      app: request-counter-ms
+
+  template: # create pods using pod definition in this template
+    metadata:
+      #  the name for the pods is not included in the meta data as a unique name is
+      #  generated from the deployment name
+      labels:
+        app: request-counter-ms
+    spec:
+      containers:
+      - name: request-counter-ms
+        # get latest version of image
+        image: mjkota/counter-app-runner:1
+        imagePullPolicy: Always
+        env:
+          - name: GIT_URL
+            value: "https://github.com/mjkota/counterapp"
+          - name: APP_PORT
+            value: "8091"
+          - name: APP_HOME
+            value: "."
+          - name: APP_STARTUP
+            value: "counterapp.js"
+          - name: REDIS_HOST
+            value: "13.125.17.140"
+          - name: REDIS_PORT
+            value: "31374"
+        ports:
+        # containerPort is the port exposed by the container (where nodejs is listening for http requests)
+          - containerPort: 8091
